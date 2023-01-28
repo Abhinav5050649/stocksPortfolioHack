@@ -7,11 +7,16 @@ const stocksSchema = new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'user'
     },
-    stocks:{
-        type: [String],
-        default: []
+    tickerSymbol: {
+        type: String,
+        required: true,
+        unique: true,
     },
-})
+    stockName:{
+        type: String,
+        required: true,
+    }
+});
 
 const shares = mongoose.model('stocks', stocksSchema);
 module.exports = shares;

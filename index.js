@@ -9,5 +9,11 @@ connectToMongo();
 app.use(express.json());
 app.use(cors());
 
+app.get(`/`, (req, res) => {
+    res.send(`Testing!`);
+});
 
+app.listen(port, () => {
+    console.log(`App listening on port ${port}`);
+});
 //To implement more
