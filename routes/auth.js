@@ -88,7 +88,7 @@ router.post("/login",
             {
                 return res.status(400).json(`Incorrect Details`)
             }
-            const passwordComparison = awaitbcrypt.compare(password, user.password);
+            const passwordComparison = await bcrypt.compare(password, user.password);
 
             if (!passwordComparison)
             {
