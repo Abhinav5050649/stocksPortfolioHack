@@ -15,7 +15,20 @@ const stocksSchema = new Schema({
     stockName:{
         type: String,
         required: true,
-    }
+    },
+    status: {
+        type: String,
+        required: true,
+        default: "B",
+    },
+    buyingDate: {
+        type: Date,
+        default: Date.now,
+    },
+    sellingDate: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 const stockS = mongoose.model('stocks', stocksSchema);

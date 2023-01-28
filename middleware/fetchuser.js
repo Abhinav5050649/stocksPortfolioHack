@@ -1,12 +1,12 @@
-var jwt = require(`jsonwebtoken`);
-const JWT_SECRET = `thisIsJustAHackathon`;
+var jwt = require("jsonwebtoken");
+const JWT_SECRET = "thisIsJustAHackathon";
 
 const fetchUser = (req, res, next) => {
-    const token = req.header(`auth-token`);
+    const token = req.header("auth-token");
 
     if (!token)
     {
-        res.status(401).send({error: `Faulty Authentication`});
+        res.status(401).send({error: "Faulty Authentication"});
     }
 
     try{
@@ -14,7 +14,7 @@ const fetchUser = (req, res, next) => {
         req.user = data.user
         next()
     }   catch (error)   {
-        res.status(401).send({error: `Faulty Authentication`})
+        res.status(401).send({error: "Faulty Authentication"})
     }
 };
 
