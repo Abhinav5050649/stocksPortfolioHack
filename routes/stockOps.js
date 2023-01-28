@@ -46,7 +46,7 @@ router.post("/addstock", fetchUser,
                 tickerSymbol,
                 stockName, 
                 status,
-                buyingDate: Date.now,
+                buyingDate: Date.now(),
             });
 
             const saveStock = await stock.save();
@@ -73,12 +73,12 @@ router.put("/updatestock/:id", fetchUser, async(req, res) => {
         if (status === "B")
         {
             newStock.status = status;
-            newStock.buyingDate = Date.now;
+            newStock.buyingDate = Date.now();
         }
-        else if (status === "S")
+        if (status === "S")
         {
             newStock.status = status;
-            newStock.sellingDate = Date.now;
+            newStock.sellingDate = Date.now();
         }
 
         let stock = await stockS.findById(req.params.id);
@@ -92,7 +92,7 @@ router.put("/updatestock/:id", fetchUser, async(req, res) => {
             return res.status(401).send("Not Allowed!!!");
         }
 
-        stock = await findOneAndUpdate(
+        stock = await stockS.findOneAndUpdate(
             req.params.id,
             {$set: newStock},
             {new: true}
