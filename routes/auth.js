@@ -11,12 +11,12 @@ const JWT_SECRET = "thisIsJustAHackathon";
 let success = true
 
 //Temporary Data Storage
-router.get("/", (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-    const user = User(req.body);
-    user.save();
-});
+// router.get("/", (req, res) => {
+//     console.log(req.body);
+//     res.send(req.body);
+//     const user = User(req.body);
+//     user.save();
+// });
 
 //During Sign Up of User
 router.post("/createuser", 

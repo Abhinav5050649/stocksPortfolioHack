@@ -13,7 +13,7 @@ const { findOneAndUpdate } = require("../models/user");
 */
 
 //View Stocks
-router.get("/fetchAllStocks", fetchUser, async(req, res) => {
+router.get("/fetchallstocks", fetchUser, async(req, res) => {
     try{
         const stocks = await stockS.find({user: req.user.id});
         res.json(stocks);
@@ -24,7 +24,7 @@ router.get("/fetchAllStocks", fetchUser, async(req, res) => {
 });
 
 //Add Stock
-router.post("/addStock", fetchUser, 
+router.post("/addstock", fetchUser, 
     [
         body("tickerSymbol").exists(),
         body("stockName").exists(),
@@ -60,7 +60,7 @@ router.post("/addStock", fetchUser,
 );
 
 //Update Stocks
-router.put("/updateStock/:id", fetchUser, async(req, res) => {
+router.put("/updatestock/:id", fetchUser, async(req, res) => {
     try{
         const {tickerSymbol, stockName, status} = req.body;
 
