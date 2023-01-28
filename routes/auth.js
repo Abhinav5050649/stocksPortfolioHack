@@ -1,25 +1,25 @@
-const express = require(`express`);
-const User = require(`../models/user`);
-const {body, validationResult} = require(`express-validator`);
+const express = require("express");
+const User = require("../models/user");
+const {body, validationResult} = require("express-validator");
 const router = express.Router();
-const bcrypt = require(`bcryptjs`);
-const jwt = require(`jsonwebtoken`);
-const fetchUser = require(`../middleware/fetchuser`);
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const fetchUser = require("../middleware/fetchuser");
 
-const JWT_SECRET = `thisIsJustAHackathon`;
+const JWT_SECRET = "thisIsJustAHackathon";
 
-let success = true;
+let success = true
 
 //Temporary Data Storage
-router.get('/', (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-    const user = User(req.body);
-    user.save();
-});
+// router.get("/", (req, res) => {
+//     console.log(req.body);
+//     res.send(req.body);
+//     const user = User(req.body);
+//     user.save();
+// });
 
 //During Sign Up of User
-router.post(`/createuser`, 
+router.post("/createuser", 
     [
         body("name").isLength({min: 3}),
         body("email").isEmail(),
@@ -68,10 +68,10 @@ router.post(`/createuser`,
 
 
 //For Logging In
-router.post(`/login`, 
+router.post("/login", 
     [
         body("email").isEmail(),
-        body("password").exists(),
+        body("password").isLength({min: 5}),
     ], async(req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()){
@@ -82,13 +82,13 @@ router.post(`/login`,
         const {email, password} = req.body;
         
         try{
-            let user = await User.findOne()
+            let user = await User.findOne({email: req.body.email})
 
             if (!user)
             {
                 return res.status(400).json(`Incorrect Details`)
             }
-            const passwordComparison = awaitbcrypt.compare(password, user.password);
+            const passwordComparison = await bcrypt.compare(password, user.password);
 
             if (!passwordComparison)
             {
@@ -112,7 +112,7 @@ router.post(`/login`,
 );
 
 //For Validation of Users Existence while fetching stock objects of User
-router.post(`/getuser`, fetchUser, async(req, res) => {
+router.post("/getuser", fetchUser, async(req, res) => {
     try{
         userId = req.user.id;
         const user = await User.findById(userId).select(`-password`);

@@ -1,4 +1,4 @@
-const mongoose = require(`mongoose`);
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -13,6 +13,11 @@ const userSchema = new Schema({
     },
     password: {
         type:   String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        default: 0.000,
         required: true
     }
 });
