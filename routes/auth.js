@@ -71,7 +71,7 @@ router.post("/createuser",
 router.post("/login", 
     [
         body("email").isEmail(),
-        body("password").exists(),
+        body("password").isLength({min: 5}),
     ], async(req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()){
@@ -82,7 +82,7 @@ router.post("/login",
         const {email, password} = req.body;
         
         try{
-            let user = await User.findOne()
+            let user = await User.findOne({email: req.body.email})
 
             if (!user)
             {
