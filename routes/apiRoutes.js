@@ -1,9 +1,21 @@
 const axios = require('axios');
+const { response } = require('express');
 const express = require('express');
 const router = express.Router();
 
 
 const {time_series_monthly_Adjusted, time_series_weekly_Adjusted, news_sentiments, inflation,cpi} = require('../api/apis');
+
+router.get('/get/getquote', (req, res )=>{
+  const symbol = req.body;
+  axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol.company}&apikey=7GS96CNUZ6GG8B4K`)
+  .then(response =>{
+    res.status(200).json(response.data)
+  })
+  .catch(err =>{
+    res.status(400).json({err: err.message})
+  })
+})
 
 router.get( '/get/timeseriesweekly', (req, res)=>{
   const company = req.body;
