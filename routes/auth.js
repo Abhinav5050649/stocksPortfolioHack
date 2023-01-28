@@ -1,17 +1,17 @@
-const express = require(`express`);
-const User = require(`../models/user`);
-const {body, validationResult} = require(`express-validator`);
+const express = require("express");
+const User = require("../models/user");
+const {body, validationResult} = require("express-validator");
 const router = express.Router();
-const bcrypt = require(`bcryptjs`);
-const jwt = require(`jsonwebtoken`);
-const fetchUser = require(`../middleware/fetchuser`);
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const fetchUser = require("../middleware/fetchuser");
 
-const JWT_SECRET = `thisIsJustAHackathon`;
+const JWT_SECRET = "thisIsJustAHackathon";
 
-let success = true;
+let success = true
 
 //Temporary Data Storage
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
     console.log(req.body);
     res.send(req.body);
     const user = User(req.body);
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 });
 
 //During Sign Up of User
-router.post(`/createuser`, 
+router.post("/createuser", 
     [
         body("name").isLength({min: 3}),
         body("email").isEmail(),
@@ -68,7 +68,7 @@ router.post(`/createuser`,
 
 
 //For Logging In
-router.post(`/login`, 
+router.post("/login", 
     [
         body("email").isEmail(),
         body("password").exists(),
@@ -112,7 +112,7 @@ router.post(`/login`,
 );
 
 //For Validation of Users Existence while fetching stock objects of User
-router.post(`/getuser`, fetchUser, async(req, res) => {
+router.post("/getuser", fetchUser, async(req, res) => {
     try{
         userId = req.user.id;
         const user = await User.findById(userId).select(`-password`);

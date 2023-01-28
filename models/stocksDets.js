@@ -23,12 +23,10 @@ const stocksSchema = new Schema({
     },
     buyingDate: {
         type: Date,
-        required: true, 
         default: Date.now,
     },
     sellingDate: {
         type: Date,
-        required: true,
         default: Date.now,
     },
 });

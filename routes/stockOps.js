@@ -1,8 +1,8 @@
-const express = require(`express`);
-const {body, validationResult}  = require(`express-validator`);
+const express = require("express");
+const {body, validationResult}  = require("express-validator");
 const fetchUser = require("../middleware/fetchuser");
 const router = express.Router();
-const stockS = require(`../models/stocksDets`);
+const stockS = require("../models/stocksDets");
 const { findOneAndUpdate } = require("../models/user");
 
 //Mainly, we need three routes.
@@ -13,18 +13,18 @@ const { findOneAndUpdate } = require("../models/user");
 */
 
 //View Stocks
-router.get(`/fetchAllStocks`, fetchUser, async(req, res) => {
+router.get("/fetchAllStocks", fetchUser, async(req, res) => {
     try{
         const stocks = await stockS.find({user: req.user.id});
         res.json(stocks);
     }   catch(error)    {
         console.error(error);
-        res.status(500).send(`Internal Server Error!!!`);
+        res.status(500).send("Internal Server Error!!!");
     }
 });
 
 //Add Stock
-router.post(`/addStock`, fetchUser, 
+router.post("/addStock", fetchUser, 
     [
         body("tickerSymbol").exists(),
         body("stockName").exists(),
@@ -54,13 +54,13 @@ router.post(`/addStock`, fetchUser,
 
         }   catch(error)    {
             console.error(error);
-            res.status(500).send(`Internal Server Error!!!`);
+            res.status(500).send("Internal Server Error!!!");
         }
     }
 );
 
 //Update Stocks
-router.put(`/updateStock/:id`, fetchUser, async(req, res) => {
+router.put("/updateStock/:id", fetchUser, async(req, res) => {
     try{
         const {tickerSymbol, stockName, status} = req.body;
 
@@ -85,11 +85,11 @@ router.put(`/updateStock/:id`, fetchUser, async(req, res) => {
 
         if (!stock)
         {
-            return res.status(404).send(`Not Found!!!`);
+            return res.status(404).send("Not Found!!!");
         }
 
         if (stock.user.toString() !== req.user.id){
-            return res.status(401).send(`Not Allowed!!!`);
+            return res.status(401).send("Not Allowed!!!");
         }
 
         stock = await findOneAndUpdate(
@@ -100,6 +100,8 @@ router.put(`/updateStock/:id`, fetchUser, async(req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).send(`Internal Server Error!!!`);
+        res.status(500).send("Internal Server Error!!!");
     }
 });
+
+module.exports = router;
