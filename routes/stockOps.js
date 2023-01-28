@@ -29,11 +29,12 @@ router.post("/addstock", fetchUser,
         body("tickerSymbol").exists(),
         body("stockName").exists(),
         body("status").exists(),
+        body("stockBuyingPrice").exists(),
     ],
     async(req, res) => {
     
         try{
-            const {tickerSymbol, stockName, status} = req.body;
+            const {tickerSymbol, stockName, status, stockBuyingPrice} = req.body;
             const errors = validationResult(req);
 
             if (!errors.isEmpty())
@@ -41,11 +42,14 @@ router.post("/addstock", fetchUser,
                 return res.status(400).json({errors: errors.array()});
             }
 
+            //added stockBuyingPrice
             const stock = new stockS({
                 user: req.user.id,
                 tickerSymbol,
                 stockName, 
                 status,
+                stockBuyingPrice,
+                stockSellingPrice: 0.00,
                 buyingDate: Date.now(),
             });
 
@@ -62,7 +66,7 @@ router.post("/addstock", fetchUser,
 //Update Stocks
 router.put("/updatestock/:id", fetchUser, async(req, res) => {
     try{
-        const {tickerSymbol, stockName, status} = req.body;
+        const {tickerSymbol, stockName, status, stockSellingPrice} = req.body;
 
         const newStock = {};
 
@@ -70,14 +74,17 @@ router.put("/updatestock/:id", fetchUser, async(req, res) => {
 
         if (stockName)  newStock.stockName = stockName;
 
-        if (status === "B")
-        {
-            newStock.status = status;
-            newStock.buyingDate = Date.now();
-        }
+        // if (status === "B")
+        // {
+        //     newStock.status = status;
+        //     newStock.buyingDate = Date.now();
+        // }
+
+        //Modified to cater to selling
         if (status === "S")
         {
             newStock.status = status;
+            newStock.stockSellingPrice = stockSellingPrice;
             newStock.sellingDate = Date.now();
         }
 
