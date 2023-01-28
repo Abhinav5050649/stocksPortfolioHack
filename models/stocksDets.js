@@ -18,5 +18,5 @@ const stocksSchema = new Schema({
     }
 });
 
-const shares = mongoose.model('stocks', stocksSchema);
-module.exports = shares;
+const stockS = mongoose.model('stocks', stocksSchema);
+module.exports = stockS;
